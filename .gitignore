@@ -1,0 +1,16 @@
+# Python / Django (we will need these later)
+__pycache__/
+*.pyc
+venv/
+.venv/
+db.sqlite3
+.env
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Node (in case you use it later)
+node_modules/
