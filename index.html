@@ -1,1201 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkyShield – Aviation Safety & Incident Analysis System</title>
-  
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Custom Aviation Theme Stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
-  
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-  <!-- Three.js (r128) for the Hero Rotating Earth & Airplane visual -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>SkyShield Aviation Intelligence</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.186.0/build/three.module.js"
+      }
+    }
+  </script>
 </head>
+
 <body>
+  <main class="app">
 
-  <!-- ========================================================= -->
-  <!-- 1. TOP NAVIGATION BAR                                     -->
-  <!-- ========================================================= -->
-  <nav class="navbar navbar-expand-lg skyshield-navbar sticky-top">
-    <div class="container">
-      <a class="skyshield-brand" href="#home">
-        <span class="brand-shield-icon">
-          <i class="bi bi-shield-check"></i>
-        </span>
-        <div>
-          <span>SkyShield</span>
-          <span class="brand-text-sub">Aviation Safety & Incident Analysis</span>
+    <section class="journey">
+
+      <div id="scene"></div>
+
+      <div class="vignette"></div>
+
+      <header class="topbar">
+        <a href="#" class="brand">
+          <span class="brand-icon">✦</span>
+          <span>SKY<span class="brand-blue">SHIELD</span></span>
+        </a>
+
+        <div class="nav-right">
+          <span class="status">
+            <i></i>
+            SYSTEMS NOMINAL
+          </span>
+
+          <a href="#arrival" class="nav-link">
+            SAFETY INTELLIGENCE ↗
+          </a>
         </div>
-      </a>
+      </header>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span></span>
+          AVIATION SAFETY / 01
+        </div>
 
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" href="#home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#about-section">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#dashboard-section">Safety Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#report-form-section">Flight Analysis</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#historical-section">Historical Incidents</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#ai-insights-section">AI Insights</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#reports-section">Incident Reports</a>
-          </li>
-        </ul>
+        <h1>
+          See risk<br />
+          <em>before</em> it lands.
+        </h1>
 
-        <div class="d-flex align-items-center gap-3">
-          <span class="utc-badge d-none d-xl-inline-block" id="utc-clock-display">00:00:00 UTC</span>
-          
-          <!-- Authorized Safety Officer Profile Pill (Shown when logged in) -->
-          <div id="user-profile-pill" class="d-none d-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill border">
-            <i class="bi bi-person-badge text-primary"></i>
-            <span class="small fw-semibold officer-name">Authorized Safety Officer</span>
-          </div>
+        <p>
+          SkyShield connects every signal in the aviation ecosystem —
+          turning incident data into safer decisions.
+        </p>
 
-          <!-- Login Button -->
-          <button id="nav-login-btn" class="btn btn-outline-primary btn-sm px-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-            <i class="bi bi-box-arrow-in-right me-1"></i> Authorized Login
+        <button id="beginJourney" class="journey-button">
+          BEGIN THE JOURNEY
+          <b>↓</b>
+        </button>
+      </div>
+
+      <div class="scene-readout">
+        <small>JOURNEY STATUS</small>
+        <strong id="stageLabel">ORBIT</strong>
+
+        <div class="progress-line">
+          <span id="progressBar"></span>
+        </div>
+
+        <small class="scroll-label">
+          SCROLL TO EXPLORE <b>↓</b>
+        </small>
+      </div>
+
+      <div class="coordinate-note">
+        LIVE ORBITAL VIEW<br />
+        <span>36° 12′ 08″ N / 115° 10′ 14″ W</span>
+      </div>
+
+    </section>
+
+    <section id="arrival" class="arrival-section">
+
+      <div class="section-kicker">
+        SKYSHIELD / THE ARRIVAL
+      </div>
+
+      <div class="arrival-grid">
+
+        <div>
+          <h2>
+            The runway is<br />
+            <em>only the beginning.</em>
+          </h2>
+
+          <p>
+            From first signal to final decision, your operation stays one
+            step ahead. Report an incident, trace its root cause, and see
+            the whole system clearly.
+          </p>
+        </div>
+
+        <div class="arrival-actions">
+          <button id="incidentButton">
+            <span>＋</span>
+            REPORT AN INCIDENT
+            <b>↗</b>
           </button>
 
-          <!-- Logout Button (Shown when logged in) -->
-          <button id="nav-logout-btn" class="btn btn-outline-secondary btn-sm px-3 d-none">
-            <i class="bi bi-box-arrow-right me-1"></i> Logout
+          <button id="dashboardButton">
+            <span>◈</span>
+            OPEN SAFETY INTELLIGENCE
+            <b>↗</b>
           </button>
         </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- ========================================================= -->
-  <!-- 2. HERO / HOME SECTION WITH ROTATING EARTH & AIRPLANE     -->
-  <!-- ========================================================= -->
-  <header id="home" class="hero-section">
-    <div class="container">
-      <div class="row align-items-center">
-        <!-- Hero Left Column: Clean Aviation Typography -->
-        <div class="col-lg-6 mb-4 mb-lg-0">
-          <div class="hero-tag">
-            <i class="bi bi-shield-lock-fill"></i> Safety Decision-Support System
-          </div>
-          <h1 class="hero-heading">SkyShield</h1>
-          <h2 class="hero-subtitle">Aviation Safety & Incident Analysis System</h2>
-          <p class="hero-description">
-            Report aviation incidents, analyze recurring safety patterns, identify possible root causes, and support data-driven safety decisions.
-          </p>
-
-          <div class="d-flex flex-wrap gap-3">
-            <button id="btn-hero-login" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm">
-              <i class="bi bi-box-arrow-in-right me-1"></i> Authorized Login
-            </button>
-            <a href="#about-section" class="btn btn-outline-secondary px-4 py-2 fw-semibold">
-              <i class="bi bi-info-circle me-1"></i> Learn More
-            </a>
-          </div>
-
-          <!-- Operational Indicators -->
-          <div class="hero-stats-row">
-            <div class="hero-stat-item">
-              <strong id="hero-stat-incidents">142</strong>
-              <span>Occurrences Logged</span>
-            </div>
-            <div class="hero-stat-item">
-              <strong>98.4%</strong>
-              <span>CAPA Review Rate</span>
-            </div>
-            <div class="hero-stat-item">
-              <strong class="text-primary">Advisory</strong>
-              <span>Decision Support Only</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hero Right Column: Rotating Earth with Airplane Visual -->
-        <div class="col-lg-6">
-          <div class="globe-card-wrapper">
-            <div class="d-flex justify-content-between align-items-center mb-2 px-2">
-              <span class="small fw-semibold text-primary">
-                <i class="bi bi-globe-americas me-1"></i> GLOBAL AIRSPACE SURVEILLANCE
-              </span>
-              <span class="badge bg-success-subtle text-success border border-success-subtle">
-                <i class="bi bi-check-circle-fill me-1"></i> FLIGHT PATH NOMINAL
-              </span>
-            </div>
-
-            <!-- 3D Canvas Mount Point for Earth & Airplane -->
-            <div id="hero-globe-container" class="hero-globe-container">
-              <!-- Rendered smoothly by js/globe.js -->
-            </div>
-
-            <div class="globe-telemetry-overlay">
-              <span><i class="bi bi-geo-alt-fill text-danger me-1"></i> LAT: 40.64° N | LON: 73.78° W</span>
-              <span class="text-primary fw-medium"><i class="bi bi-airplane-fill me-1"></i> FL350 · 485 KTS</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- ========================================================= -->
-  <!-- 3. ABOUT SECTION: SAFETY PHILOSOPHY & DECISION-SUPPORT   -->
-  <!-- ========================================================= -->
-  <section id="about-section" class="section-wrapper bg-white-subtle">
-    <div class="container">
-      <div class="row justify-content-center text-center mb-5">
-        <div class="col-lg-8">
-          <span class="section-kicker">Core System Architecture</span>
-          <h2 class="section-title">A Decision-Support System for Safety Officers</h2>
-          <p class="section-subtitle mx-auto">
-            SkyShield assists certified safety teams in organizing flight data, correlating past patterns, and highlighting potential risks. The platform provides advisory signals to augment human judgment.
-          </p>
-        </div>
       </div>
 
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="aviation-card h-100 p-4">
-            <div class="kpi-icon-box kpi-icon-blue mb-3">
-              <i class="bi bi-file-earmark-medical"></i>
-            </div>
-            <h4 class="h5 fw-bold text-navy mb-2">Standardized Occurrence Capture</h4>
-            <p class="text-muted small mb-0">
-              Structured reporting aligned with ICAO Annex 13 taxonomy, capturing flight phases, weather conditions, system telemetry, and pilot narratives.
-            </p>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="aviation-card h-100 p-4">
-            <div class="kpi-icon-box kpi-icon-amber mb-3">
-              <i class="bi bi-diagram-3"></i>
-            </div>
-            <h4 class="h5 fw-bold text-navy mb-2">Pattern Match & Similarity Search</h4>
-            <p class="text-muted small mb-0">
-              Identifies historical incident clusters across aircraft types and flight phases, surfacing recurring factors without claiming to predict crashes.
-            </p>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="aviation-card h-100 p-4">
-            <div class="kpi-icon-box kpi-icon-green mb-3">
-              <i class="bi bi-shield-check"></i>
-            </div>
-            <h4 class="h5 fw-bold text-navy mb-2">Root-Cause Decision Support</h4>
-            <p class="text-muted small mb-0">
-              Evaluates potential contributing factors across maintenance, human factors, weather, and operational domains to support rigorous investigation.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 4. AUTHORIZED USER DASHBOARD (CHARTS & KPIS)              -->
-  <!-- ========================================================= -->
-  <section id="dashboard-section" class="section-wrapper">
-    <div class="container">
-      <!-- Section Header with Officer Context -->
-      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+      <div class="metrics">
         <div>
-          <span class="section-kicker">Operations Overview</span>
-          <h2 class="section-title mb-1">Safety Officer Dashboard</h2>
-          <p class="text-muted small mb-0">
-            Monitoring ongoing risk signals, compliance metrics, and occurrence clusters.
-          </p>
-        </div>
-        <div class="text-lg-end mt-2 mt-lg-0">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
-            <i class="bi bi-person-check me-1"></i> Certified Safety Officer Session
-          </span>
-        </div>
-      </div>
-
-      <!-- 4 Dashboard KPI Cards -->
-      <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
-          <div class="kpi-metric-card">
-            <div>
-              <div class="kpi-label">Total Incidents</div>
-              <div class="kpi-number" id="kpi-total-incidents">142</div>
-              <small class="text-success"><i class="bi bi-arrow-down-short"></i> 4.2% vs last month</small>
-            </div>
-            <div class="kpi-icon-box kpi-icon-blue">
-              <i class="bi bi-journals"></i>
-            </div>
-          </div>
+          <strong>01</strong>
+          <span>CONNECTED<br />OPERATION</span>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
-          <div class="kpi-metric-card">
-            <div>
-              <div class="kpi-label">High Risk Incidents</div>
-              <div class="kpi-number text-danger" id="kpi-high-risk">9</div>
-              <small class="text-danger"><i class="bi bi-exclamation-triangle"></i> Requires CAPA review</small>
-            </div>
-            <div class="kpi-icon-box kpi-icon-red">
-              <i class="bi bi-shield-exclamation"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-xl-3">
-          <div class="kpi-metric-card">
-            <div>
-              <div class="kpi-label">Similar Historical Cases</div>
-              <div class="kpi-number" id="kpi-similar-cases">28</div>
-              <small class="text-muted"><i class="bi bi-clock-history"></i> In current active cluster</small>
-            </div>
-            <div class="kpi-icon-box kpi-icon-amber">
-              <i class="bi bi-bezier2"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-xl-3">
-          <div class="kpi-metric-card">
-            <div>
-              <div class="kpi-label">AI Safety Alerts</div>
-              <div class="kpi-number text-primary" id="kpi-ai-alerts">3</div>
-              <small class="text-primary"><i class="bi bi-bell"></i> Recurring signals flagged</small>
-            </div>
-            <div class="kpi-icon-box kpi-icon-green">
-              <i class="bi bi-cpu"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Chart.js Visualizations (2x2 Grid) -->
-      <div class="row g-4">
-        <!-- Chart 1: Incidents by Month -->
-        <div class="col-lg-6">
-          <div class="aviation-card h-100">
-            <div class="card-header-clean">
-              <h4><i class="bi bi-graph-up text-primary me-2"></i>Incidents by Month</h4>
-              <span class="badge bg-light text-secondary border">Trailing 12 Months</span>
-            </div>
-            <div class="card-body-clean">
-              <div class="chart-box">
-                <canvas id="chart-incidents-month"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chart 2: Incidents by Incident Type -->
-        <div class="col-lg-6">
-          <div class="aviation-card h-100">
-            <div class="card-header-clean">
-              <h4><i class="bi bi-pie-chart text-primary me-2"></i>Incidents by Type</h4>
-              <span class="badge bg-light text-secondary border">Categorical Mix</span>
-            </div>
-            <div class="card-body-clean">
-              <div class="chart-box">
-                <canvas id="chart-incidents-type"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chart 3: Risk Level Distribution -->
-        <div class="col-lg-6">
-          <div class="aviation-card h-100">
-            <div class="card-header-clean">
-              <h4><i class="bi bi-bar-chart text-primary me-2"></i>Risk Distribution</h4>
-              <span class="badge bg-light text-secondary border">Severity Index</span>
-            </div>
-            <div class="card-body-clean">
-              <div class="chart-box">
-                <canvas id="chart-risk-distribution"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chart 4: Incidents by Flight Phase -->
-        <div class="col-lg-6">
-          <div class="aviation-card h-100">
-            <div class="card-header-clean">
-              <h4><i class="bi bi-layers text-primary me-2"></i>Incidents by Flight Phase</h4>
-              <span class="badge bg-light text-secondary border">Operational Phase</span>
-            </div>
-            <div class="card-body-clean">
-              <div class="chart-box">
-                <canvas id="chart-incidents-phase"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 5. FLIGHT & INCIDENT DETAILS FORM                         -->
-  <!-- ========================================================= -->
-  <section id="report-form-section" class="section-wrapper bg-white-subtle">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <div class="text-center mb-4">
-            <span class="section-kicker">Occurrence Intake & AI Analysis</span>
-            <h2 class="section-title">Enter Flight & Incident Details</h2>
-            <p class="section-subtitle mx-auto">
-              Submit mandatory or voluntary occurrence information to generate AI-assisted root-cause insights and locate similar historical incidents.
-            </p>
-          </div>
-
-          <!-- Quick Sample Pre-fills for Testing/Grading -->
-          <div class="sample-pills-bar justify-content-center">
-            <span class="small fw-semibold text-muted me-1">Demo Quick-Fill:</span>
-            <button type="button" class="sample-pill-btn" id="sample-engine-takeoff">
-              <i class="bi bi-lightning-charge me-1"></i> Engine Takeoff Vibration
-            </button>
-            <button type="button" class="sample-pill-btn" id="sample-turbulence-cruise">
-              <i class="bi bi-wind me-1"></i> Clear Air Turbulence
-            </button>
-            <button type="button" class="sample-pill-btn" id="sample-runway-landing">
-              <i class="bi bi-water me-1"></i> Wet Runway Deceleration
-            </button>
-          </div>
-
-          <!-- The Main Form -->
-          <div class="aviation-card p-4 p-md-5">
-            <form id="incident-form">
-
-              <!-- Group 1: Flight Information -->
-              <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom">
-                <i class="bi bi-airplane me-2 text-primary"></i>1. Flight Information
-              </h5>
-
-              <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                  <label class="form-label" for="input-flight-no">Flight Number *</label>
-                  <input type="text" class="form-control" id="input-flight-no" placeholder="e.g. SK-482" required>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label" for="select-aircraft">Aircraft Type *</label>
-                  <select class="form-select" id="select-aircraft" required>
-                    <option value="Boeing 737-800">Boeing 737-800</option>
-                    <option value="Airbus A320neo">Airbus A320neo</option>
-                    <option value="Boeing 787-9">Boeing 787-9 Dreamliner</option>
-                    <option value="Airbus A350-900">Airbus A350-900</option>
-                    <option value="Boeing 777-300ER">Boeing 777-300ER</option>
-                    <option value="Embraer E195-E2">Embraer E195-E2</option>
-                    <option value="ATR 72-600">ATR 72-600</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label" for="input-airline">Airline / Operator</label>
-                  <input type="text" class="form-control" id="input-airline" placeholder="e.g. SkyShield Air">
-                </div>
-
-                <div class="col-md-4">
-                  <label class="form-label" for="input-dep-airport">Departure Airport</label>
-                  <input type="text" class="form-control" id="input-dep-airport" placeholder="e.g. KJFK (New York)">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label" for="input-arr-airport">Arrival Airport</label>
-                  <input type="text" class="form-control" id="input-arr-airport" placeholder="e.g. EGLL (London)">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label" for="select-phase">Flight Phase *</label>
-                  <select class="form-select" id="select-phase" required>
-                    <option value="Pre-flight">Pre-flight</option>
-                    <option value="Taxi">Taxi</option>
-                    <option value="Takeoff" selected>Takeoff</option>
-                    <option value="Climb">Climb</option>
-                    <option value="Cruise">Cruise</option>
-                    <option value="Descent">Descent</option>
-                    <option value="Approach">Approach</option>
-                    <option value="Landing">Landing</option>
-                    <option value="Post-flight">Post-flight</option>
-                  </select>
-                </div>
-
-                <div class="col-md-6">
-                  <label class="form-label" for="input-date">Occurrence Date</label>
-                  <input type="date" class="form-control" id="input-date">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label" for="input-time">Occurrence Time (UTC)</label>
-                  <input type="time" class="form-control" id="input-time">
-                </div>
-              </div>
-
-              <!-- Group 2: Incident Information -->
-              <h5 class="fw-bold text-navy mb-3 pb-2 border-bottom">
-                <i class="bi bi-exclamation-triangle me-2 text-warning"></i>2. Incident Information
-              </h5>
-
-              <div class="row g-3 mb-4">
-                <div class="col-md-4">
-                  <label class="form-label" for="select-type">Incident Type *</label>
-                  <select class="form-select" id="select-type" required>
-                    <option value="Technical">Technical</option>
-                    <option value="Engine" selected>Engine</option>
-                    <option value="Electrical">Electrical</option>
-                    <option value="Navigation">Navigation</option>
-                    <option value="Communication">Communication</option>
-                    <option value="Weather">Weather</option>
-                    <option value="Human Factor">Human Factor</option>
-                    <option value="Operational">Operational</option>
-                    <option value="Runway">Runway</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label" for="input-location">Incident Location</label>
-                  <input type="text" class="form-control" id="input-location" placeholder="e.g. Runway 28L / FL340">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label" for="select-weather">Weather Conditions</label>
-                  <select class="form-select" id="select-weather">
-                    <option value="VMC (Clear Skies)">VMC (Clear Skies)</option>
-                    <option value="IMC (Low Visibility / Overcast)">IMC (Low Visibility / Overcast)</option>
-                    <option value="Clear Air Turbulence">Clear Air Turbulence</option>
-                    <option value="Convective / Heavy Precipitation">Convective / Heavy Precipitation</option>
-                    <option value="Crosswinds / Windshear Alert">Crosswinds / Windshear Alert</option>
-                  </select>
-                </div>
-
-                <div class="col-md-6">
-                  <label class="form-label" for="input-system">Aircraft System Involved</label>
-                  <input type="text" class="form-control" id="input-system" placeholder="e.g. Engine 1 Turbine & FADEC">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label" for="select-severity">Severity Level *</label>
-                  <select class="form-select" id="select-severity" required>
-                    <option value="Low">Low (Minor Non-Conformity)</option>
-                    <option value="Medium">Medium (System Redundancy Engaged)</option>
-                    <option value="High" selected>High (Flight Envelope / Abort)</option>
-                    <option value="Critical">Critical (Immediate Hazard)</option>
-                  </select>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label" for="textarea-desc">Describe What Happened *</label>
-                  <textarea class="form-control" id="textarea-desc" rows="4" placeholder="Detailed chronological description of the occurrence, cockpit alarms, instrument readings, and pilot observations..." required></textarea>
-                </div>
-
-                <div class="col-12">
-                  <label class="form-label" for="textarea-action">Immediate Action Taken</label>
-                  <textarea class="form-control" id="textarea-action" rows="2" placeholder="e.g. Checklist executed, rejected takeoff below V1, aircraft taxied safely to gate..."></textarea>
-                </div>
-              </div>
-
-              <!-- Submit Button -->
-              <div class="text-center pt-2">
-                <button type="submit" id="btn-analyze-incident" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow">
-                  <i class="bi bi-cpu-fill me-2"></i> Analyze Incident
-                </button>
-                <div class="text-muted small mt-2">
-                  <i class="bi bi-info-circle me-1"></i> Triggers simulated pattern correlation and root-cause decision-support models.
-                </div>
-              </div>
-
-            </form>
-          </div>
-
-          <!-- Loading State (Simulated AI processing) -->
-          <div id="ai-loading-box" class="ai-loading-panel d-none mt-4">
-            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <h4 class="fw-bold text-navy mb-1">Analyzing incident data...</h4>
-            <p id="ai-step-text" class="text-muted small mb-3">Parsing flight phase, symptoms, and cross-referencing historical occurrences...</p>
-            <div class="progress" style="height: 6px; max-width: 450px; margin: 0 auto;">
-              <div id="ai-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 25%"></div>
-            </div>
-          </div>
-
-          <!-- ========================================================= -->
-          <!-- 6. AI ANALYSIS RESULT DASHBOARD                           -->
-          <!-- ========================================================= -->
-          <div id="ai-result-box" class="ai-result-panel d-none mt-4">
-            <div class="ai-result-header">
-              <div>
-                <span class="badge bg-success-subtle text-success border border-success-subtle mb-1">
-                  <i class="bi bi-check-circle-fill me-1"></i> Analysis Complete
-                </span>
-                <h3>AI Safety Analysis</h3>
-              </div>
-              <span class="badge bg-white text-primary px-3 py-2 fw-semibold">
-                Decision-Support Advisory
-              </span>
-            </div>
-
-            <div class="p-4 p-md-5">
-              <!-- Summary Grid -->
-              <div class="row g-3 mb-4">
-                <div class="col-md-6 col-lg-3">
-                  <div class="p-3 bg-light rounded-3 border h-100">
-                    <small class="text-muted d-block text-uppercase fw-semibold mb-1">Incident Classification</small>
-                    <strong class="text-navy h6 mb-0 d-block" id="ai-res-classification">Technical / Engine-related</strong>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                  <div class="p-3 bg-light rounded-3 border h-100">
-                    <small class="text-muted d-block text-uppercase fw-semibold mb-1">Estimated Risk Signal</small>
-                    <span id="ai-res-risk-level" class="badge bg-warning text-dark fs-6 px-3 py-2">Medium Risk</span>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                  <div class="p-3 bg-light rounded-3 border h-100">
-                    <small class="text-muted d-block text-uppercase fw-semibold mb-1">Historical Matches</small>
-                    <strong class="text-primary h6 mb-0 d-block" id="ai-res-similar-count">23 similar incidents found</strong>
-                  </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                  <div class="p-3 bg-light rounded-3 border h-100">
-                    <small class="text-muted d-block text-uppercase fw-semibold mb-1">Pattern Match</small>
-                    <strong class="text-success h6 mb-0 d-block" id="ai-res-similarity-pct">87% similarity</strong>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Possible Root Causes -->
-              <div class="mb-4">
-                <h5 class="fw-bold text-navy mb-2">
-                  <i class="bi bi-search me-2 text-primary"></i>Possible Root Causes & Potential Contributing Factors
-                </h5>
-                <p class="text-muted small mb-3">
-                  Statistical correlation with previous safety investigation findings:
-                </p>
-
-                <ul class="list-group list-group-flush border rounded-3 mb-3" id="ai-res-causes-list">
-                  <li class="list-group-item d-flex align-items-center py-2">
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle me-3">Factor 1</span>
-                    <span class="text-dark fw-medium">Engine maintenance issue (Turbine blade micro-fissure or stator wear)</span>
-                  </li>
-                  <li class="list-group-item d-flex align-items-center py-2">
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle me-3">Factor 2</span>
-                    <span class="text-dark fw-medium">Component wear under elevated thermal cycles</span>
-                  </li>
-                  <li class="list-group-item d-flex align-items-center py-2">
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle me-3">Factor 3</span>
-                    <span class="text-dark fw-medium">Improper inspection interval / borescope calibration gap</span>
-                  </li>
-                  <li class="list-group-item d-flex align-items-center py-2">
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle me-3">Factor 4</span>
-                    <span class="text-dark fw-medium">Human/operational factors (Delayed throttle reduction during initial anomaly indication)</span>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Prominent Safety Officer Disclaimer -->
-              <div class="disclaimer-box mb-4">
-                <div class="d-flex">
-                  <i class="bi bi-shield-exclamation fs-5 me-2"></i>
-                  <div>
-                    <strong>Important Safety Advisory:</strong>
-                    These items are labeled as <em>Possible Root Causes</em> or <em>Potential Contributing Factors</em> based on historical safety pattern correlation. They are not confirmed causes. Final determinations remain with authorized safety personnel.
-                  </div>
-                </div>
-              </div>
-
-              <!-- Flight Summary & Actions -->
-              <div class="d-flex flex-wrap justify-content-between align-items-center pt-2 border-top">
-                <div class="text-muted small mb-2 mb-md-0" id="ai-res-flight-summary">
-                  SK-482 (Boeing 737-800) · Takeoff · Engine · Engine 1 Turbine
-                </div>
-                <div class="d-flex gap-2">
-                  <button type="button" class="btn btn-outline-secondary btn-sm" onclick="window.print()">
-                    <i class="bi bi-printer me-1"></i> Print Advisory
-                  </button>
-                  <button type="button" id="btn-save-analyzed-report" class="btn btn-success btn-sm px-3">
-                    <i class="bi bi-save me-1"></i> Save to Incident Archive
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 7. SIMILAR HISTORICAL INCIDENTS TABLE                     -->
-  <!-- ========================================================= -->
-  <section id="historical-section" class="section-wrapper">
-    <div class="container">
-      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
         <div>
-          <span class="section-kicker">Historical Pattern Correlation</span>
-          <h2 class="section-title mb-1">Similar Historical Incidents</h2>
-          <p class="text-muted small mb-0">
-            Past occurrences sharing aerodynamic phase, subsystem characteristics, and symptoms.
-          </p>
-        </div>
-        <span class="badge bg-light text-secondary border px-3 py-2 mt-2 mt-md-0">
-          <i class="bi bi-database me-1"></i> ICAO / FAA Historical Archive
-        </span>
-      </div>
-
-      <div class="aviation-card">
-        <div class="table-responsive">
-          <table class="table table-aviation table-hover align-middle">
-            <thead>
-              <tr>
-                <th>Incident ID</th>
-                <th>Date</th>
-                <th>Flight Phase</th>
-                <th>Incident Type</th>
-                <th>Aircraft System</th>
-                <th>Severity</th>
-                <th>Possible Cause</th>
-                <th>Similarity %</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="historical-incidents-tbody">
-              <!-- Rendered dynamically by app.js -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 8. RECURRING PATTERN DETECTION (AI INSIGHTS)              -->
-  <!-- ========================================================= -->
-  <section id="ai-insights-section" class="section-wrapper bg-white-subtle">
-    <div class="container">
-      <div class="row align-items-center mb-4">
-        <div class="col-lg-7">
-          <span class="section-kicker">Automated Cluster Analysis</span>
-          <h2 class="section-title mb-1">Recurring Pattern Detection</h2>
-          <p class="text-muted small mb-0">
-            Algorithmic detection of multi-event occurrence clusters across fleet operators.
-          </p>
-        </div>
-        <div class="col-lg-5 text-lg-end mt-2 mt-lg-0">
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-3 py-2">
-            <i class="bi bi-bell-fill me-1"></i> Active Safety Alert #492
-          </span>
-        </div>
-      </div>
-
-      <!-- Recurring Pattern Alert Banner -->
-      <div class="aviation-card p-4 mb-4 border-warning">
-        <div class="row align-items-center">
-          <div class="col-lg-8">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="badge bg-warning text-dark fw-bold">Recurring Pattern Detected</span>
-              <span class="text-muted small">Updated 2 hours ago</span>
-            </div>
-            <h4 class="h5 fw-bold text-navy mb-2">
-              "Multiple engine vibration incidents have been reported during the takeoff phase."
-            </h4>
-            <p class="text-muted small mb-3">
-              Telemetry analysis across 14 recent occurrences demonstrates localized high-frequency harmonic vibration occurring between 95 and 115 knots during rapid engine spool-up.
-            </p>
-
-            <div class="row g-2 text-navy small">
-              <div class="col-sm-6 col-md-4">
-                <strong>Similar Incidents:</strong> 14 in past 90 days
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <strong>Frequency Shift:</strong> <span class="text-danger fw-semibold">+32% increase</span>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                <strong>Dominant Phase:</strong> Takeoff (78.5%)
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <strong>Aircraft System:</strong> Engine Fuel & Turbine Assembly
-              </div>
-              <div class="col-sm-6 col-md-6">
-                <strong>Common Factors:</strong> Rapid thermal expansion during high ambient runway temperatures
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mt-3 mt-lg-0 text-lg-end">
-            <div class="p-3 bg-light rounded-3 border text-center">
-              <small class="text-muted d-block mb-1">Investigation Recommendation</small>
-              <strong class="text-primary d-block mb-2">Issue Safety Advisory Notice</strong>
-              <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#advisoryModal">
-                <i class="bi bi-file-earmark-text me-1"></i> View Safety Notice
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Trend Graph for the Recurring Pattern -->
-      <div class="aviation-card p-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="h6 fw-bold text-navy mb-0">Recurring Takeoff Engine Vibration Occurrences (6-Month Trend)</h5>
-          <span class="badge bg-light text-secondary border">Trend Over Time</span>
-        </div>
-        <div class="chart-box">
-          <canvas id="chart-recurring-trend"></canvas>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 9. POSSIBLE ROOT CAUSE ANALYSIS                           -->
-  <!-- ========================================================= -->
-  <section class="section-wrapper">
-    <div class="container">
-      <div class="row justify-content-center text-center mb-4">
-        <div class="col-lg-8">
-          <span class="section-kicker">Contributing Factor Breakdown</span>
-          <h2 class="section-title">Possible Root Cause Analysis</h2>
-          <p class="section-subtitle mx-auto">
-            Distribution of identified potential contributing factors across verified historical investigations to guide root cause decision-making.
-          </p>
-        </div>
-      </div>
-
-      <!-- Cards Grid of Root Causes -->
-      <div class="row g-3 mb-4">
-        <div class="col-md">
-          <div class="aviation-card p-3 text-center h-100">
-            <div class="kpi-icon-box kpi-icon-blue mx-auto mb-2">
-              <i class="bi bi-wrench-adjustable"></i>
-            </div>
-            <div class="small fw-semibold text-muted">Maintenance</div>
-            <div class="h3 fw-bold text-navy my-1">38%</div>
-            <small class="text-muted">Inspection & seal wear</small>
-          </div>
+          <strong>24<span>/7</span></strong>
+          <span>SAFETY<br />SIGNALS</span>
         </div>
 
-        <div class="col-md">
-          <div class="aviation-card p-3 text-center h-100">
-            <div class="kpi-icon-box kpi-icon-amber mx-auto mb-2">
-              <i class="bi bi-people"></i>
-            </div>
-            <div class="small fw-semibold text-muted">Human Factors</div>
-            <div class="h3 fw-bold text-navy my-1">24%</div>
-            <small class="text-muted">Workload & checklist timing</small>
-          </div>
-        </div>
-
-        <div class="col-md">
-          <div class="aviation-card p-3 text-center h-100">
-            <div class="kpi-icon-box kpi-icon-green mx-auto mb-2">
-              <i class="bi bi-cloud-haze2"></i>
-            </div>
-            <div class="small fw-semibold text-muted">Weather</div>
-            <div class="h3 fw-bold text-navy my-1">18%</div>
-            <small class="text-muted">Turbulence & windshear</small>
-          </div>
-        </div>
-
-        <div class="col-md">
-          <div class="aviation-card p-3 text-center h-100">
-            <div class="kpi-icon-box kpi-icon-red mx-auto mb-2">
-              <i class="bi bi-cpu"></i>
-            </div>
-            <div class="small fw-semibold text-muted">Technical Failure</div>
-            <div class="h3 fw-bold text-navy my-1">12%</div>
-            <small class="text-muted">Sensor & valve hardware</small>
-          </div>
-        </div>
-
-        <div class="col-md">
-          <div class="aviation-card p-3 text-center h-100">
-            <div class="kpi-icon-box kpi-icon-blue mx-auto mb-2">
-              <i class="bi bi-clipboard2-check"></i>
-            </div>
-            <div class="small fw-semibold text-muted">Operational Factors</div>
-            <div class="h3 fw-bold text-navy my-1">8%</div>
-            <small class="text-muted">Turnaround & dispatch</small>
-          </div>
-        </div>
-      </div>
-
-      <!-- Root Cause Analysis Horizontal Chart -->
-      <div class="aviation-card p-4 mb-4">
-        <h5 class="h6 fw-bold text-navy mb-3">Historical Contributing Factor Distribution (%)</h5>
-        <div class="chart-box" style="height: 230px;">
-          <canvas id="chart-root-causes"></canvas>
-        </div>
-      </div>
-
-      <!-- Mandatory Safety Disclaimer -->
-      <div class="disclaimer-box text-center">
-        <i class="bi bi-shield-check me-2"></i>
-        <strong>System Scope:</strong> AI-generated results are intended to support safety investigation and should be reviewed by an authorized safety professional. The system provides decision-support risk signals only and does not predict aircraft crashes.
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 10. INCIDENT REPORTS ARCHIVE (SEARCH & FILTER)            -->
-  <!-- ========================================================= -->
-  <section id="reports-section" class="section-wrapper bg-white-subtle">
-    <div class="container">
-      <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
         <div>
-          <span class="section-kicker">Database Archive</span>
-          <h2 class="section-title mb-1">Incident Reports</h2>
-          <p class="text-muted small mb-0">
-            Review previously submitted occurrence reports, active investigations, and CAPA resolutions.
-          </p>
+          <strong>∞</strong>
+          <span>DECISIONS<br />IN CONTEXT</span>
         </div>
-        <div class="mt-2 mt-md-0">
-          <span id="reports-count-label" class="badge bg-light text-secondary border px-3 py-2">
-            Showing reports...
-          </span>
-        </div>
+
+        <small>
+          © 2025 SKYSHIELD / AVIATION INTELLIGENCE
+        </small>
       </div>
 
-      <!-- Filters & Search Controls -->
-      <div class="aviation-card p-3 mb-3">
-        <div class="row g-2 align-items-center">
-          <div class="col-lg-3 col-md-6">
-            <div class="input-group input-group-sm">
-              <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
-              <input type="text" class="form-control" id="reports-search" placeholder="Search by flight, ID, aircraft...">
-            </div>
-          </div>
+    </section>
 
-          <div class="col-lg-2 col-md-6">
-            <select class="form-select form-select-sm" id="filter-type">
-              <option value="all">All Incident Types</option>
-              <option value="Engine">Engine</option>
-              <option value="Technical">Technical</option>
-              <option value="Weather">Weather</option>
-              <option value="Runway">Runway</option>
-              <option value="Navigation">Navigation</option>
-              <option value="Human Factor">Human Factor</option>
-            </select>
-          </div>
+  </main>
 
-          <div class="col-lg-2 col-md-4">
-            <select class="form-select form-select-sm" id="filter-risk">
-              <option value="all">All Risk Levels</option>
-              <option value="Critical">Critical</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </div>
-
-          <div class="col-lg-2 col-md-4">
-            <select class="form-select form-select-sm" id="filter-phase">
-              <option value="all">All Flight Phases</option>
-              <option value="Takeoff">Takeoff</option>
-              <option value="Climb">Climb</option>
-              <option value="Cruise">Cruise</option>
-              <option value="Approach">Approach</option>
-              <option value="Landing">Landing</option>
-              <option value="Taxi">Taxi</option>
-            </select>
-          </div>
-
-          <div class="col-lg-2 col-md-4">
-            <select class="form-select form-select-sm" id="sort-date">
-              <option value="newest">Sort: Newest First</option>
-              <option value="oldest">Sort: Oldest First</option>
-            </select>
-          </div>
-
-          <div class="col-lg-1 col-12 text-end">
-            <button class="btn btn-sm btn-outline-secondary w-100" id="btn-reset-filters" title="Reset Filters">
-              <i class="bi bi-arrow-counterclockwise"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Incident Reports Table -->
-      <div class="aviation-card">
-        <div class="table-responsive">
-          <table class="table table-aviation table-hover align-middle">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Flight No</th>
-                <th>Aircraft</th>
-                <th>Phase</th>
-                <th>Type</th>
-                <th>Severity</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="reports-archive-tbody">
-              <!-- Rendered dynamically by app.js -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================================= -->
-  <!-- 11. FOOTER                                                -->
-  <!-- ========================================================= -->
-  <footer class="skyshield-footer">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-lg-5">
-          <div class="d-flex align-items-center gap-2 mb-2">
-            <span class="brand-shield-icon" style="width: 28px; height: 28px; font-size: 1rem;">
-              <i class="bi bi-shield-check"></i>
-            </span>
-            <span class="text-white fw-bold fs-5">SkyShield</span>
-          </div>
-          <p class="small text-muted mb-2">
-            Aviation Safety & Incident Analysis System. Advanced occurrence intake, pattern clustering, and root-cause decision support for authorized personnel.
-          </p>
-          <div class="small text-secondary">
-            For authorized safety personnel and safety investigation purposes.
-          </div>
-        </div>
-
-        <div class="col-6 col-lg-3 offset-lg-1">
-          <h5>System Navigation</h5>
-          <ul class="list-unstyled small d-flex flex-column gap-2">
-            <li><a href="#home" class="text-secondary text-decoration-none">Home</a></li>
-            <li><a href="#about-section" class="text-secondary text-decoration-none">About System</a></li>
-            <li><a href="#dashboard-section" class="text-secondary text-decoration-none">Safety Dashboard</a></li>
-            <li><a href="#report-form-section" class="text-secondary text-decoration-none">Occurrence Intake</a></li>
-            <li><a href="#reports-section" class="text-secondary text-decoration-none">Incident Reports</a></li>
-          </ul>
-        </div>
-
-        <div class="col-6 col-lg-3">
-          <h5>Compliance Standards</h5>
-          <ul class="list-unstyled small d-flex flex-column gap-2 text-secondary">
-            <li><i class="bi bi-check2 text-primary me-1"></i> ICAO Annex 13 Taxonomy</li>
-            <li><i class="bi bi-check2 text-primary me-1"></i> FAA Part 5 SMS Standards</li>
-            <li><i class="bi bi-check2 text-primary me-1"></i> EASA Safety Management</li>
-            <li><i class="bi bi-check2 text-primary me-1"></i> Django REST API Ready</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom d-flex flex-wrap justify-content-between align-items-center">
-        <div>
-          © 2026 SkyShield · Aviation Safety & Incident Analysis System
-        </div>
-        <div class="small text-secondary mt-2 mt-md-0">
-          Safety Decision-Support Architecture · Not a Crash Predictor
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ========================================================= -->
-  <!-- MODAL: AUTHORIZED PERSONNEL LOGIN                         -->
-  <!-- ========================================================= -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-light">
-          <div class="d-flex align-items-center gap-2">
-            <span class="brand-shield-icon" style="width: 30px; height: 30px; font-size: 1rem;">
-              <i class="bi bi-shield-lock-fill"></i>
-            </span>
-            <h5 class="modal-title fw-bold text-navy" id="loginModalLabel">Authorized Personnel Login</h5>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="modal-body p-4">
-          <div class="alert alert-primary py-2 px-3 small d-flex align-items-center gap-2 mb-3">
-            <i class="bi bi-shield-check fs-5"></i>
-            <div>
-              <strong>Authorized Personnel Only:</strong> Restricted to certified safety managers, flight operations officers, and safety investigators.
-            </div>
-          </div>
-
-          <div id="login-error" class="alert alert-danger py-2 small d-none"></div>
-
-          <form id="login-form">
-            <div class="mb-3">
-              <label class="form-label" for="login-email">Username or Official Email</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-person"></i></span>
-                <input type="text" class="form-control" id="login-email" placeholder="officer@skyshield.aero" value="officer@skyshield.aero" required>
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label" for="login-password">Security Password</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="bi bi-key"></i></span>
-                <input type="password" class="form-control" id="login-password" placeholder="Enter security password" value="safety2026" required>
-              </div>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" id="btn-quick-login">
-                <i class="bi bi-magic me-1"></i> Auto-fill Demo Credentials
-              </button>
-              <span class="small text-muted">Demo Mode</span>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-              <i class="bi bi-box-arrow-in-right me-1"></i> Verify & Access Terminal
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================= -->
-  <!-- MODAL: INCIDENT DETAIL VIEWER                             -->
-  <!-- ========================================================= -->
-  <div class="modal fade" id="incidentDetailModal" tabindex="-1" aria-labelledby="incidentDetailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-light">
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-primary fs-6" id="modal-inc-id">INC-1023</span>
-            <h5 class="modal-title fw-bold text-navy" id="incidentDetailModalLabel">Incident Investigation Record</h5>
-          </div>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="modal-body p-4">
-          <div class="row g-3 mb-3">
-            <div class="col-md-4">
-              <small class="text-muted d-block">Flight Number</small>
-              <strong class="text-navy" id="modal-flight-no">SK-482</strong>
-            </div>
-            <div class="col-md-4">
-              <small class="text-muted d-block">Aircraft Type</small>
-              <strong class="text-navy" id="modal-aircraft">Boeing 737-800</strong>
-            </div>
-            <div class="col-md-4">
-              <small class="text-muted d-block">Date & Time</small>
-              <strong class="text-navy" id="modal-date-time">12 Aug 2026</strong>
-            </div>
-
-            <div class="col-md-4">
-              <small class="text-muted d-block">Flight Phase</small>
-              <span class="badge bg-light text-dark border" id="modal-phase">Takeoff</span>
-            </div>
-            <div class="col-md-4">
-              <small class="text-muted d-block">Incident Type</small>
-              <strong class="text-navy" id="modal-type">Engine</strong>
-            </div>
-            <div class="col-md-4">
-              <small class="text-muted d-block">Assessed Severity</small>
-              <span id="modal-severity"></span>
-            </div>
-
-            <div class="col-md-6">
-              <small class="text-muted d-block">Aircraft System</small>
-              <strong class="text-navy" id="modal-system">Engine 1 Turbine Assembly</strong>
-            </div>
-            <div class="col-md-6">
-              <small class="text-muted d-block">Location</small>
-              <strong class="text-navy" id="modal-location">Runway 28L (KJFK)</strong>
-            </div>
-
-            <div class="col-12">
-              <small class="text-muted d-block">Weather Conditions</small>
-              <span class="text-dark" id="modal-weather">VMC (Clear Skies)</span>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <h6 class="fw-bold text-navy mb-1">Occurrence Narrative:</h6>
-            <div class="p-3 bg-light rounded-3 text-secondary small" id="modal-desc">
-              Incident description goes here...
-            </div>
-          </div>
-
-          <div class="p-3 bg-warning-subtle border border-warning-subtle rounded-3 mb-3">
-            <div class="small fw-bold text-warning-emphasis mb-1">
-              <i class="bi bi-search me-1"></i> Identified Possible Root Cause / Contributing Factor:
-            </div>
-            <div class="fw-medium text-dark" id="modal-possible-cause">
-              Maintenance issue / blade micro-fissure
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center text-muted small">
-            <div>Investigation Status: <span class="badge bg-secondary" id="modal-status">Closed CAPA</span></div>
-            <div>ICAO SMS Safety Record</div>
-          </div>
-        </div>
-
-        <div class="modal-footer bg-light">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================= -->
-  <!-- MODAL: SAFETY NOTICE VIEW                                 -->
-  <!-- ========================================================= -->
-  <div class="modal fade" id="advisoryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-warning-subtle">
-          <h5 class="modal-title fw-bold text-warning-emphasis">
-            <i class="bi bi-bell-fill me-1"></i> Safety Advisory Notice #SAN-2026-04
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body p-4 small">
-          <p><strong>Subject:</strong> Accelerated Pre-flight Borescope Inspections on CFM/LEAP Engine Turbines during High-Ambient Operations.</p>
-          <p><strong>Advisory Action:</strong> Flight operations and maintenance departments are recommended to inspect N2 stator cooling orifices and verify FADEC vibration damping thresholds prior to high-power takeoff runs.</p>
-          <div class="alert alert-light border small text-muted mb-0">
-            Issued by SkyShield Safety Investigation Support Unit under ICAO SMS Framework.
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Dismiss</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Toast Notification Container -->
-  <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toast-container" style="z-index: 1090;"></div>
-
-  <!-- Bootstrap 5 Bundle JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Modular Scripts -->
-  <script src="js/globe.js"></script>
-  <script src="js/app.js"></script>
-
+  <script type="module" src="script.js"></script>
 </body>
 </html>
